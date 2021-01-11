@@ -332,6 +332,14 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given byte
    //                   the bit pointer is set to 0
+   public Data(byte b)
+   {
+      this.size = 8;
+      this.data = new ArrayList<Byte> (1);
+      this.data.add(b);
+      this.current = 0;
+   }
+
    public Data(byte b, int n)
    {
       this.size = n;
@@ -342,6 +350,21 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given integer
    //                   the bit pointer is set to 0
+   public Data(int i)
+   {
+      this.size = 32;
+      this.data = new ArrayList<Byte> (4);
+      byte b = (byte) (i >> 24);
+      this.data.add(b);
+      b = (byte) (i >> 16);
+      this.data.add(b);
+      b = (byte) (i >> 8);
+      this.data.add(b);
+      b = (byte) i;
+      this.data.add(b);
+      this.current = 0;
+   }
+
    public Data(int i, int n)
    {
       this.size = n;
@@ -359,6 +382,29 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given long integer
    //                   the bit pointer is set to 0
+   public Data(long l)
+   {
+      this.size = 64;
+      this.data = new ArrayList<Byte> (8);
+      byte b = (byte) (l >> 56);
+      this.data.add(b);
+      b = (byte) (l >> 48);
+      this.data.add(b);
+      b = (byte) (l >> 40);
+      this.data.add(b);
+      b = (byte) (l >> 32);
+      this.data.add(b);
+      b = (byte) (l >> 24);
+      this.data.add(b);
+      b = (byte) (l >> 16);
+      this.data.add(b);
+      b = (byte) (l >> 8);
+      this.data.add(b);
+      b = (byte) l;
+      this.data.add(b);
+      this.current = 0;
+   }
+
    public Data(long l, int n)
    {
       this.size = n;
