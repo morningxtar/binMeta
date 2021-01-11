@@ -332,9 +332,9 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given byte
    //                   the bit pointer is set to 0
-   public Data(byte b)
+   public Data(byte b, int n)
    {
-      this.size = 8;
+      this.size = n;
       this.data = new ArrayList<Byte> (1);
       this.data.add(b);
       this.current = 0;
@@ -342,9 +342,9 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given integer
    //                   the bit pointer is set to 0
-   public Data(int i)
+   public Data(int i, int n)
    {
-      this.size = 32;
+      this.size = n;
       this.data = new ArrayList<Byte> (4);
       byte b = (byte) (i >> 24);
       this.data.add(b);
@@ -359,9 +359,9 @@ public class Data implements Comparable<Data>
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given long integer
    //                   the bit pointer is set to 0
-   public Data(long l)
+   public Data(long l, int n)
    {
-      this.size = 64;
+      this.size = n;
       this.data = new ArrayList<Byte> (8);
       byte b = (byte) (l >> 56);
       this.data.add(b);
@@ -943,8 +943,10 @@ public class Data implements Comparable<Data>
          return 1;
       else if (this.data.size() <= index)
          return -1;
-      else
-         return Byte.compareUnsigned(this.data.get(index),D.data.get(index)) < 0 ? -1 : 1;
+      else {
+         //return Byte.compareUnsigned(this.data.get(index),D.data.get(index)) < 0 ? -1 : 1;
+         return Byte.toUnsignedInt(this.data.get(index)) < Byte.toUnsignedInt(D.data.get(index)) ? -1 : 1;
+      }
    }
 
    // toString (does not use the bit pointer)
@@ -983,14 +985,14 @@ public class Data implements Comparable<Data>
       System.out.println("D03 = " + D03);
       Data D04 = new Data(10,0.1);
       System.out.println("D04 = " + D04);
-      Data D05 = new Data(Byte.parseByte("01010101",2));
+      Data D05 = new Data(Byte.parseByte("01010101",2), 8);
       System.out.println("D05 = " + D05);
       int i = 1111;
-      Data D06 = new Data(i);
+      Data D06 = new Data(i, 32);
       System.out.println("D06 = " + D06);
       long l = (long) i;
       l = l << 32;
-      Data D07 = new Data(l);
+      Data D07 = new Data(l, 64);
       System.out.println("D07 = " + D07);
       Data D08 = new Data('b');
       System.out.println("D08 = " + D08);
