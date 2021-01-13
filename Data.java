@@ -338,12 +338,13 @@ public class Data implements Comparable<Data>
       this.data = new ArrayList<Byte> (1);
       this.data.add(b);
       this.current = 0;
+
    }
 
    public Data(byte b, int n)
    {
       this.size = n;
-      this.data = new ArrayList<Byte> (1);
+      this.data = new ArrayList<Byte> (n/8);
       this.data.add(b);
       this.current = 0;
    }
@@ -368,13 +369,14 @@ public class Data implements Comparable<Data>
    public Data(int i, int n)
    {
       this.size = n;
-      this.data = new ArrayList<Byte> (4);
-      byte b = (byte) (i >> 24);
-      this.data.add(b);
-      b = (byte) (i >> 16);
-      this.data.add(b);
-      b = (byte) (i >> 8);
-      this.data.add(b);
+      this.data = new ArrayList<Byte> (n/8);
+      int j = this.size - 8;
+      byte b;
+      while (j > 0){
+         b = (byte) (i >> j);
+         this.data.add(b);
+         j -= 8;
+      }
       b = (byte) i;
       this.data.add(b);
       this.current = 0;
@@ -409,24 +411,40 @@ public class Data implements Comparable<Data>
    {
       this.size = n;
       this.data = new ArrayList<Byte> (8);
-      byte b = (byte) (l >> 56);
-      this.data.add(b);
-      b = (byte) (l >> 48);
-      this.data.add(b);
-      b = (byte) (l >> 40);
-      this.data.add(b);
-      b = (byte) (l >> 32);
-      this.data.add(b);
-      b = (byte) (l >> 24);
-      this.data.add(b);
-      b = (byte) (l >> 16);
-      this.data.add(b);
-      b = (byte) (l >> 8);
-      this.data.add(b);
+      long j = this.size - 8;
+      byte b;
+      while (j > 0){
+         b = (byte) (l >> j);
+         this.data.add(b);
+         j -= 8;
+      }
+
       b = (byte) l;
       this.data.add(b);
       this.current = 0;
    }
+
+   /*//Method to fill ArrayList<Byte>
+   private ArrayList<Byte> fillArrayListByte(Object objects, int size){
+      ArrayList<Byte> _data = new ArrayList<Byte> (size);
+      int i = objects - 8;
+
+      System.out.println("test micro");
+      while (i > 1) {
+         if (objects instanceof Integer) {
+            byte b = (byte) ((int) objects >> i);
+            System.out.println(b);
+            _data.add(b);
+         } else if (objects instanceof Byte) {
+            System.out.println("erg");
+            _data.add((byte) objects);
+         } else {
+            System.out.println("no");
+         }
+         i -= 8;
+      }
+      return data;
+   }*/
 
    // Data constructor: it generates a new Data object consisting of the bits forming a given char
    //                   only 5 bits are used if the boolean argument specifies that the char is a alphabet letter
@@ -1031,14 +1049,17 @@ public class Data implements Comparable<Data>
       System.out.println("D03 = " + D03);
       Data D04 = new Data(10,0.1);
       System.out.println("D04 = " + D04);
+      //Data D05 = new Data(Byte.parseByte("01010101",2));
       Data D05 = new Data(Byte.parseByte("01010101",2), 8);
       System.out.println("D05 = " + D05);
       int i = 1111;
-      Data D06 = new Data(i, 32);
+      //Data D06 = new Data(i);
+      Data D06 = new Data(i,32);
       System.out.println("D06 = " + D06);
       long l = (long) i;
       l = l << 32;
-      Data D07 = new Data(l, 64);
+      //Data D07 = new Data(l);
+      Data D07 = new Data(l,64);
       System.out.println("D07 = " + D07);
       Data D08 = new Data('b');
       System.out.println("D08 = " + D08);
